@@ -41,16 +41,20 @@ const initialFacts = [
 function App() {
   const facts = initialFacts;
 
+  function findColor() {
+    console.log("findcolor");
+  }
+
   return (
     <>
       <Header />
       <NewFactForm />
       <main>
         <CategoryFilter />
-
         {facts.map((fact) => (
           <FactList
             className="fact-list"
+            key={fact.id}
             text={fact.text}
             source={fact.source}
             category={fact.category}
