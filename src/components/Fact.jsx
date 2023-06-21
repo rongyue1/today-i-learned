@@ -25,7 +25,7 @@ function Fact({ props }) {
         </p>
         <span
           className="tag"
-          style={{ backgroundColor: CATEGORIES.find(findColor).color }}
+          style={{ backgrounColor: CATEGORIES.find(findColor).color }}
         >
           {props.category}
         </span>
