@@ -1,42 +1,30 @@
-function Fact({ props }) {
-  const CATEGORIES = [
-    { name: "technology", color: "#3b82f6" },
-    { name: "science", color: "#16a34a" },
-    { name: "finance", color: "#ef4444" },
-    { name: "society", color: "#eab308" },
-    { name: "entertainment", color: "#db2777" },
-    { name: "health", color: "#14b8a6" },
-    { name: "history", color: "#f97316" },
-    { name: "news", color: "#8b5cf6" },
-  ];
-
-  function findColor(categoryName) {
-    return categoryName.name === props.category;
-  }
-
+function Fact({ fact, categoryLists }) {
   return (
     <ul className="fact-list">
       <li className="fact">
         <p>
-          {props.text}
-          <a className="source" href={props.source}>
+          {fact.text}
+          <a className="source" href={fact.source}>
             (source)
           </a>
         </p>
         <span
           className="tag"
-          style={{ backgrounColor: CATEGORIES.find(findColor).color }}
+          style={{
+            backgroundColor: categoryLists.find(
+              (categoryName) => categoryName.name === fact.category
+            ).color,
+          }}
         >
-          {props.category}
+          {fact.category}
         </span>
         <div className="vote-buttons">
-          <button>👍 {props.votesInteresting}</button>
-          <button>🤯 {props.votesMindblowing}</button>
-          <button>⛔️ {props.votesFalse}</button>
+          <button>👍 {fact.votesInteresting}</button>
+          <button>🤯 {fact.votesMindblowing}</button>
+          <button>⛔️ {fact.votesFalse}</button>
         </div>
       </li>
     </ul>
   );
 }
-
 export default Fact;
