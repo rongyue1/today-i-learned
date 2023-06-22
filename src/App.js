@@ -97,7 +97,7 @@ function NewFactForm({ setFactsList, setShowForm }) {
       setSource("");
       setCategory("");
       // close form
-      setShowForm((pre) => !pre);
+      setShowForm(false);
     }
   }
 
