@@ -1,4 +1,5 @@
 import Fact from "./Fact";
+import { useState } from "react";
 
 function FactList({ facts, categoryLists }) {
   return (

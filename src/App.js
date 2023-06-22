@@ -62,7 +62,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-function NewFactForm() {
+function NewFactForm({ setFactsList }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
@@ -91,6 +91,7 @@ function NewFactForm() {
         createdIn: new Date().getFullYear(),
       };
       // add new fact to state
+      setFactsList((preFacts) => [...preFacts, newFact]);
       // reset input field
     }
 
@@ -127,14 +128,15 @@ function NewFactForm() {
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [facts, setFactsList] = useState(initialFacts);
 
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewFactForm /> : null}
+      {showForm ? <NewFactForm setFactsList={setFactsList} /> : null}
       <main className="main">
         <CategoryFilter categoryLists={CATEGORIES} />
-        <FactList facts={initialFacts} categoryLists={CATEGORIES} />
+        <FactList facts={facts} categoryLists={CATEGORIES} />
       </main>
     </>
   );
