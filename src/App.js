@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
 import Header from "./components/Header";
-import NewFactForm from "./components/NewFactForm";
 import FactList from "./components/FactList";
 import CategoryFilter from "./components/CategoryFilter";
 
@@ -50,13 +49,47 @@ const initialFacts = [
   },
 ];
 
+function NewFactForm() {
+  const [text, setText] = useState("");
+  const [source, setSource] = useState("");
+  const [category, setCategory] = useState("");
+  const textLength = text.length;
+
+  return (
+    <form className="fact-form">
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        type="text"
+        placeholder="Share a interesting fact..."
+      />
+      <span>{200 - textLength} words</span>
+      <input
+        value={source}
+        onChange={(e) => setSource(e.target.value)}
+        type="text"
+        placeholder="Trustworthy source..."
+      />
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <option value="">Choose category</option>
+        {CATEGORIES.map((cat) => (
+          <option key={cat.name} value={cat.name}>
+            {cat.name.toUpperCase()}
+          </option>
+        ))}
+      </select>
+      <button className="btn btn-large">POST</button>
+    </form>
+  );
+}
+
 function App() {
   const [showForm, setShowForm] = useState(false);
 
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewFactForm categoryLists={CATEGORIES} /> : null}
+      {showForm ? <NewFactForm /> : null}
       <main className="main">
         <CategoryFilter categoryLists={CATEGORIES} />
         <FactList facts={initialFacts} categoryLists={CATEGORIES} />
