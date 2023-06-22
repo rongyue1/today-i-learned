@@ -49,14 +49,56 @@ const initialFacts = [
   },
 ];
 
+// check if source is a URL
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 function NewFactForm() {
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
   const textLength = text.length;
 
+  function handleSubmit(e) {
+    // prevent browser reload
+    e.preventDefault();
+    // check if all inputs are valid
+    if (
+      text &&
+      text.length <= 200 &&
+      source &&
+      isValidHttpUrl(source) &&
+      category
+    ) {
+      // create new Object to take new data
+      const newFact = {
+        id: initialFacts.length + 1,
+        text,
+        source,
+        category,
+        votesInteresting: 0,
+        votesMindblowing: 0,
+        votesFalse: 0,
+        createdIn: new Date().getFullYear(),
+      };
+      // add new fact to state
+      // reset input field
+    }
+
+    // close form
+  }
+
   return (
-    <form className="fact-form">
+    <form className="fact-form" onSubmit={handleSubmit}>
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
