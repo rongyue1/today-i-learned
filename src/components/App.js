@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./style.css";
-import Header from "./components/Header";
-import FactList from "./components/FactList";
-import CategoryFilter from "./components/CategoryFilter";
+import React, { useState, useEffect } from "react";
+import "../style.css";
+import Header from "./Header";
+import FactList from "./FactList";
+import CategoryFilter from "./CategoryFilter";
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -48,6 +48,11 @@ const initialFacts = [
     createdIn: 2015,
   },
 ];
+
+// Load data from Supabase
+const url = "https://mwaifpppdhglwrzlrnqi.supabase.co/rest/v1/facts";
+const apikey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13YWlmcHBwZGhnbHdyemxybnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc5MTg0MDIsImV4cCI6MjAwMzQ5NDQwMn0.fljtMtPmcQAMv8fHvp-LqBpYE9Ka1oilTvDJHB7GoEU";
 
 // check if source is a URL
 function isValidHttpUrl(string) {
@@ -131,7 +136,21 @@ function NewFactForm({ setFactsList, setShowForm }) {
 
 function App() {
   const [showForm, setShowForm] = useState(false);
-  const [facts, setFactsList] = useState(initialFacts);
+  const [facts, setFactsList] = useState([]);
+
+  useEffect(() => {
+    async function loadFacts() {
+      const res = await fetch(url, {
+        headers: {
+          apikey,
+          authorization: "Bearer " + apikey,
+        },
+      });
+      const data = await res.json();
+      setFactsList(data);
+    }
+    loadFacts();
+  }, []);
 
   return (
     <>
@@ -146,5 +165,4 @@ function App() {
     </>
   );
 }
-
 export default App;

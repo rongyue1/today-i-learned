@@ -19,9 +19,9 @@ function Fact({ fact, categoryLists }) {
           {fact.category}
         </span>
         <div className="vote-buttons">
-          <button>👍 {fact.votesInteresting}</button>
-          <button>🤯 {fact.votesMindblowing}</button>
-          <button>⛔️ {fact.votesFalse}</button>
+          <button>👍 {fact.voteInteresting}</button>
+          <button>🤯 {fact.voteMindblowing}</button>
+          <button>⛔️ {fact.voteFalse}</button>
         </div>
       </li>
     </ul>
