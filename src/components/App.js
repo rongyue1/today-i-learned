@@ -37,13 +37,12 @@ function App() {
     // loadFacts();
 
     async function loadFacts() {
-      const { data: supabaseData, error } = await supabase
-        .from("facts")
-        .select("*");
-      setFactsList(supabaseData);
-      // console.log(supabaseData);
+      setIsLoading(true);
+      const { data: facts, error } = await supabase.from("facts").select("*");
+      setFactsList(facts);
     }
     loadFacts();
+    setIsLoading(false);
   }, [cat]);
 
   return (
