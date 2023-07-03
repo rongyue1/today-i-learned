@@ -131,6 +131,8 @@ function NewFactForm({ facts, setFactsList, setShowForm }) {
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  // show facts that are under specific category
+  const [cat, setCat] = useState("all");
   const [facts, setFactsList] = useState([]);
 
   useEffect(() => {
@@ -147,10 +149,15 @@ function App() {
         },
       });
       const data = await res.json();
-      setFactsList(data);
+      if (cat === "all") {
+        setFactsList(data);
+      } else {
+        const filteredData = await data.filter((f) => f.category === cat);
+        setFactsList(filteredData);
+      }
     }
     loadFacts();
-  }, []);
+  }, [cat]);
 
   return (
     <>
@@ -165,7 +172,9 @@ function App() {
       <main className="main">
         <CategoryFilter
           categoryLists={CATEGORIES}
-          onClick={(name) => console.log("reach " + name)}
+          onClick={(cat) => {
+            setCat(cat);
+          }}
         />
         <FactList facts={facts} categoryLists={CATEGORIES} />
       </main>
