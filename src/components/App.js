@@ -21,6 +21,11 @@ function App() {
   // show facts that are under specific category
   const [cat, setCat] = useState("all");
   const [facts, setFactsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  function Loader() {
+    return <p>Loading...</p>;
+  }
 
   useEffect(() => {
     // Load data from Supabase
@@ -29,6 +34,7 @@ function App() {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13YWlmcHBwZGhnbHdyemxybnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc5MTg0MDIsImV4cCI6MjAwMzQ5NDQwMn0.fljtMtPmcQAMv8fHvp-LqBpYE9Ka1oilTvDJHB7GoEU";
 
     async function loadFacts() {
+      setIsLoading(true);
       const res = await fetch(url, {
         headers: {
           apikey,
@@ -42,6 +48,7 @@ function App() {
         const filteredData = await data.filter((f) => f.category === cat);
         setFactsList(filteredData);
       }
+      setIsLoading(false);
     }
     loadFacts();
   }, [cat]);
@@ -64,7 +71,11 @@ function App() {
             setCat(cat);
           }}
         />
-        <FactList facts={facts} categoryLists={CATEGORIES} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <FactList facts={facts} categoryLists={CATEGORIES} />
+        )}
       </main>
     </>
   );
