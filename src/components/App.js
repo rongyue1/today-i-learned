@@ -41,11 +41,17 @@ function App() {
       const { data: facts, error } = await supabase
         .from("facts")
         .select("*")
-        .order("voteInteresting", { ascending: false });
-      setFactsList(facts);
+        .order("voteInteresting", { ascending: false })
+        .limit(100);
+      if (!error) {
+        setFactsList(facts);
+      } else {
+        alert("Oops, something went wrong!");
+      }
+
+      setIsLoading(false);
     }
     loadFacts();
-    setIsLoading(false);
   }, [cat]);
 
   return (
