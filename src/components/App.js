@@ -38,7 +38,10 @@ function App() {
 
     async function loadFacts() {
       setIsLoading(true);
-      const { data: facts, error } = await supabase.from("facts").select("*");
+      const { data: facts, error } = await supabase
+        .from("facts")
+        .select("*")
+        .order("voteInteresting", { ascending: false });
       setFactsList(facts);
     }
     loadFacts();
