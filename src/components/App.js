@@ -6,7 +6,7 @@ import FactList from "./FactList";
 import NewFactForm from "./NewFactForm";
 import CategoryFilter from "./CategoryFilter";
 import categories from "../data";
-import { supabase, supabaseUrl, apikey } from "../supabase";
+import supabase from "../supabase";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -17,22 +17,31 @@ function App() {
 
   useEffect(() => {
     // Load data from Supabase
+    // async function loadFacts() {
+    //   setIsLoading(true);
+    //   const res = await fetch(supabaseUrl, {
+    //     headers: {
+    //       apikey,
+    //       authorization: "Bearer " + apikey,
+    //     },
+    //   });
+    //   const data = await res.json();
+    //   if (cat === "all") {
+    //     setFactsList(data);
+    //   } else {
+    //     const filteredData = await data.filter((f) => f.category === cat);
+    //     setFactsList(filteredData);
+    //   }
+    //   setIsLoading(false);
+    // }
+    // loadFacts();
+
     async function loadFacts() {
-      setIsLoading(true);
-      const res = await fetch(supabaseUrl, {
-        headers: {
-          apikey,
-          authorization: "Bearer " + apikey,
-        },
-      });
-      const data = await res.json();
-      if (cat === "all") {
-        setFactsList(data);
-      } else {
-        const filteredData = await data.filter((f) => f.category === cat);
-        setFactsList(filteredData);
-      }
-      setIsLoading(false);
+      const { data: supabaseData, error } = await supabase
+        .from("facts")
+        .select("*");
+      setFactsList(supabaseData);
+      // console.log(supabaseData);
     }
     loadFacts();
   }, [cat]);
