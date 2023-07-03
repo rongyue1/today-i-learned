@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../style.css";
 import Header from "./Header";
+import Loader from "./Loader";
 import FactList from "./FactList";
 import NewFactForm from "./NewFactForm";
 import CategoryFilter from "./CategoryFilter";
@@ -22,10 +23,6 @@ function App() {
   const [cat, setCat] = useState("all");
   const [facts, setFactsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  function Loader() {
-    return <p>Loading...</p>;
-  }
 
   useEffect(() => {
     // Load data from Supabase
