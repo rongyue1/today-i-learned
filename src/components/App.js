@@ -6,6 +6,7 @@ import FactList from "./FactList";
 import NewFactForm from "./NewFactForm";
 import CategoryFilter from "./CategoryFilter";
 import categories from "../data";
+import { supabase, supabaseUrl, apikey } from "../supabase";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -16,13 +17,9 @@ function App() {
 
   useEffect(() => {
     // Load data from Supabase
-    const url = "https://mwaifpppdhglwrzlrnqi.supabase.co/rest/v1/facts";
-    const apikey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13YWlmcHBwZGhnbHdyemxybnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc5MTg0MDIsImV4cCI6MjAwMzQ5NDQwMn0.fljtMtPmcQAMv8fHvp-LqBpYE9Ka1oilTvDJHB7GoEU";
-
     async function loadFacts() {
       setIsLoading(true);
-      const res = await fetch(url, {
+      const res = await fetch(supabaseUrl, {
         headers: {
           apikey,
           authorization: "Bearer " + apikey,
