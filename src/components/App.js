@@ -17,38 +17,23 @@ function App() {
 
   useEffect(() => {
     // Load data from Supabase
-    // async function loadFacts() {
-    //   setIsLoading(true);
-    //   const res = await fetch(supabaseUrl, {
-    //     headers: {
-    //       apikey,
-    //       authorization: "Bearer " + apikey,
-    //     },
-    //   });
-    //   const data = await res.json();
-    //   if (cat === "all") {
-    //     setFactsList(data);
-    //   } else {
-    //     const filteredData = await data.filter((f) => f.category === cat);
-    //     setFactsList(filteredData);
-    //   }
-    //   setIsLoading(false);
-    // }
-    // loadFacts();
-
     async function loadFacts() {
       setIsLoading(true);
-      const { data: facts, error } = await supabase
-        .from("facts")
-        .select("*")
+      let query = supabase.from("facts").select("*");
+
+      if (cat !== "all") {
+        query = query.eq("category", cat);
+      }
+
+      const { data: facts, error } = await query
         .order("voteInteresting", { ascending: false })
         .limit(100);
+
       if (!error) {
         setFactsList(facts);
       } else {
         alert("Oops, something went wrong!");
       }
-
       setIsLoading(false);
     }
     loadFacts();
