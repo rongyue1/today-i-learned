@@ -1,10 +1,10 @@
 import supabase from "../supabase";
 
 function Fact({ fact, categoryLists, setFactsList }) {
-  async function handleClick() {
+  async function handleClick(e) {
     const { data: updatedFact, error } = await supabase
       .from("facts")
-      .update({ voteInteresting: fact.voteInteresting + 1 })
+      .update({ [e.target.value]: fact[e.target.value] + 1 })
       .eq("id", fact.id)
       .select();
 
@@ -36,9 +36,15 @@ function Fact({ fact, categoryLists, setFactsList }) {
           {fact.category}
         </span>
         <div className="vote-buttons">
-          <button onClick={handleClick}>👍 {fact.voteInteresting}</button>
-          <button>🤯 {fact.voteMindblowing}</button>
-          <button>⛔️ {fact.voteFalse}</button>
+          <button onClick={(e) => handleClick(e)} value="voteInteresting">
+            👍 {fact.voteInteresting}
+          </button>
+          <button onClick={(e) => handleClick(e)} value="voteMindblowing">
+            🤯 {fact.voteMindblowing}
+          </button>
+          <button onClick={(e) => handleClick(e)} value="voteFalse">
+            ⛔️ {fact.voteFalse}
+          </button>
         </div>
       </li>
     </ul>
