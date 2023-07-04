@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import supabase from "../supabase";
 
 // check if source is a URL
 function isValidHttpUrl(string) {
@@ -19,7 +20,7 @@ function NewFactForm({ facts, categories, setFactsList, setShowForm }) {
   const [category, setCategory] = useState("");
   const textLength = text.length;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // prevent browser reload
     e.preventDefault();
     // check if all inputs are valid
@@ -31,18 +32,17 @@ function NewFactForm({ facts, categories, setFactsList, setShowForm }) {
       category
     ) {
       // create new Object to take new data
-      const newFact = {
-        id: facts.length + 1,
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
-      // add new fact to state
-      setFactsList((preFacts) => [newFact, ...preFacts]);
+      const { data: newFact, error } = await supabase
+        .from("facts")
+        .insert([{ text, source, category }])
+        .select();
+      if (!error) {
+        // add new fact to state
+        setFactsList((preFacts) => [newFact[0], ...preFacts]);
+      } else {
+        alert("Oops, something went wrong!");
+      }
+
       // reset input field
       setText("");
       setSource("");
