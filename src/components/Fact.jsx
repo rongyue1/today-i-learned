@@ -2,9 +2,10 @@ import supabase from "../supabase";
 
 function Fact({ fact, categoryLists, setFactsList }) {
   async function handleClick(e) {
+    const buttonName = e.target.value;
     const { data: updatedFact, error } = await supabase
       .from("facts")
-      .update({ [e.target.value]: fact[e.target.value] + 1 })
+      .update({ [buttonName]: fact[buttonName] + 1 })
       .eq("id", fact.id)
       .select();
 
