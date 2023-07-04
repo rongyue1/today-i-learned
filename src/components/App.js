@@ -60,7 +60,11 @@ function App() {
         {isLoading ? (
           <Loader />
         ) : (
-          <FactList facts={facts} categoryLists={categories} />
+          <FactList
+            facts={facts}
+            categoryLists={categories}
+            setFactsList={setFactsList}
+          />
         )}
       </main>
     </>
